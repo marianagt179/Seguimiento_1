@@ -1,0 +1,57 @@
+# Para la descarga del documento de trabajo, se abre el link proporcionado en las instrucciones del seguimiento y se copia la url del archivo genérico del organismo seleccionado. 
+
+# Este fue el organismo utilizado: Poecilia_reticulata.Guppy_female_1.0_MT.114.gff3.gz	
+
+# "Wget is a free utility for non-interactive download of files from the Web. It supports HTTP, HTTPS, and FTP protocols, as well as retrieval through HTTP proxies".
+
+# Para la descarga se utiliza el comando wget 
+
+----
+wget https://ftp.ensembl.org/pub/current_gff3/poecilia_reticulata/Poecilia_reticulata.Guppy_female_1.0_MT.114.gff3.gz
+----
+
+# "The gzip program compresses and decompresses files" 
+
+# Para descomprimir el archivo con la información del organismo se utiliza el comando gunzip.
+
+----
+gunzip Poecilia_reticulata.Guppy_female_1.0_MT.114.gff3.gz
+----
+
+# Punto 3: ANÁLISIS DEL ARCHIVO
+
+----
+# Contando cuántas líneas anotadas (no comentadas) hay en el archivo GFF3.
+
+# Filtra comentarios (#) y muestra el total de anotaciones.
+
+cat Poecilia_reticulata.Guppy_female_1.0_MT.114.gff3 | grep -v '^#' |wc -l   
+----
+
+----
+# Contando cuántos cromosomas diferentes (LG) están anotados.
+
+# Extrae nombres de cromosomas, elimina duplicados y los cuenta.
+
+# La opción -E en grep permite usar expresiones regulares extendidas.
+
+# La opción -o hace que grep solo imprima la parte del texto que coincide con el patrón, no la línea completa.
+ 
+cat Poecilia_reticulata.Guppy_female_1.0_MT.114.gff3 |grep -v '^#'| grep -Eo '^LG[0-9]+' | sort -u | wc -l
+----
+
+----
+# Cuenta cuántas anotaciones son del tipo gene.
+
+# Filtra el campo de tipo de feature y cuenta solo los que son gene.
+
+cat Poecilia_reticulata.Guppy_female_1.0_MT.114.gff3 |grep -v '^#'|cut -f 3| grep "^gene" | wc -l 
+----
+
+----
+# Muestra los 10 tipos de anotaciones más frecuentes.
+
+# Cuenta cada tipo de feature (columna 3), los ordena y muestra el top 10.
+
+cat Poecilia_reticulata.Guppy_female_1.0_MT.114.gff3 |grep -v '^#'| cut -f3 | sort | uniq -c | sort -nr | head -10
+----
